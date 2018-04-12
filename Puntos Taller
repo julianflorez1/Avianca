@@ -1,0 +1,56 @@
+5. Crea 2 perfiles. (0.125)
+
+SELECT * FROM DBA_PROFILES;
+
+
+a. Perfil 1: contraseña de "empleado" 40 días, una sesión por usuario, 10 minutos de inactividad, 4 inicio de sesión fallido
+intentos
+
+
+CREATE PROFILE empleado LIMIT
+PASSWORD_LIFE_TIME              40
+SESSIONS_PER_USER               1
+IDLE_TIME                       15
+FAILED_LOGIN_ATTEMPTS           4;
+
+
+
+segundo. Perfil 3: vida de contraseña de "desarrollo" 100 días, dos sesiones por usuario, 30 minutos inactivos, sin
+intentos fallidos
+
+
+CREATE PROFILE desarrollo LIMIT
+PASSWORD_LIFE_TIME              100
+SESSIONS_PER_USER               2
+IDLE_TIME                       30
+FAILED_LOGIN_ATTEMPTS           UNLIMITED;
+
+
+
+6. Cree 4 usuarios, asígneles el tablespace "avianca"; 2 de ellos deben tener el perfil del empleado y el
+Restando el perfil de desarrollo, todos los usuarios deben permitir conectarse a la base de datos. (0.125)
+
+CREATE USER USER1
+IDENTIFIED BY user1
+DEFAULT tablespace avianca
+PROFILE empleado;
+
+CREATE USER USER2
+IDENTIFIED BY user2
+DEFAULT tablespace avianca
+PROFILE empleado;
+
+CREATE USER USER3
+IDENTIFIED BY user3
+DEFAULT tablespace avianca
+PROFILE desarrollo;
+
+CREATE USER USER4
+IDENTIFIED BY user4
+DEFAULT tablespace avianca
+PROFILE desarrollo;
+
+7. Bloquee un usuario asociado con el perfil del empleado (0.125)
+
+ALTER USER USER1 ACCOUNT LOCK;
+ALTER USER USER2 ACCOUNT LOCK;
