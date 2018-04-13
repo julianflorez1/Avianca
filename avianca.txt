@@ -86,7 +86,7 @@ create table Tripulaciones
     estado varchar(255) not null check(estado in ('en vuelo','activo','inactivo','jubilado','suspendido','despedido','entrenamiento','licencia','vacaciones')),
     ubicacion_actual varchar(255)
 );
- drop table tripulaciones CASCADE CONSTRAINTS;
+
 create table Pilotos
 (
     id_piloto integer not null primary key,
@@ -96,7 +96,7 @@ create table Pilotos
     cargo varchar(255) not null check(cargo in ('comandante','primer oficial')),
     id_empleado integer  
 );
- drop table pilotos CASCADE CONSTRAINTS;
+ 
 create table Aeropuertos
 (
     id_aeropuerto integer not null primary key,
@@ -107,7 +107,7 @@ create table Aeropuertos
     latitud varchar2(255),
     abreviatura_aeropuerto varchar2(255)
 );
-  drop table Aeropuertos CASCADE CONSTRAINTS;
+  
 create table Rutas
 (
     id_ruta integer not null primary key,
@@ -134,7 +134,7 @@ create table logs_vuelo
     id_vuelo integer not null  
 );
  
- DROP TABLE logs_vuelo CASCADE CONSTRAINTS;
+ 
 
 create table Vuelos
 (
@@ -147,7 +147,7 @@ create table Vuelos
     cantidad_pasajeros integer,
     id_avion integer not null
 );
- drop table vuelo
+ 
 create table checkin
 (
     id_checkin integer not null primary key,
@@ -186,21 +186,8 @@ create table aviones
     economy_seats integer
 );
 
- DROP TABLE aviones CASCADE CONSTRAINTS;
-DROP sequence inc_id3
-create sequence inc_id increment by 1  start with 1
-nocycle
-nocache
-order;
-create sequence inc_id2 increment by 1 start with 100
-nocycle
-nocache
-order;
+ 
 
-create sequence inc_id3 increment by 1 start with 200
-nocycle
-nocache
-order;
 ALTER TABLE Pilotos
 ADD CONSTRAINT FK_Pilotos_Tripulacion
   FOREIGN KEY (id_empleado)
@@ -264,9 +251,21 @@ ADD CONSTRAINT FK_programacion_id_aeropuerto
   FOREIGN KEY (id_aeropuerto)
   REFERENCES Aeropuertos(id_aeropuerto);
   
-  
-select * from dba_tablespaces;
-select * from dba_data_files;
+  create sequence inc_id increment by 1  start with 1
+nocycle
+nocache
+order;
+create sequence inc_id2 increment by 1 start with 100
+nocycle
+nocache
+order;
+
+create sequence inc_id3 increment by 1 start with 200
+nocycle
+nocache
+order;
+
+
 
 
 --Fila 1
