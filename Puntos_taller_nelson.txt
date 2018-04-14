@@ -1,0 +1,15 @@
+/*2. Create 2 Tablespaces 
+a. first one with 2 Gb and 1 datafile, tablespace should be named " avianca "
+
+create tablespace Avianca
+datafile 'avianca.dbf' size 2G;
+
+/*b. Undo tablespace with 25Mb of space and 1 datafile
+
+create undo tablespace undoavianca_01
+datafile 'undoavianca.dbf'
+size 25M autoextend on;
+
+/*3. Set the undo tablespace to be used in the system (0.125)
+
+ALTER SYSTEM SET UNDO_TABLESPACE = UNDOTBSPACE;
