@@ -4,9 +4,9 @@
 --un vuelo confirmado, busque los aviones que se encuentran en el aeropuerto de salida (Utilizando la
 --hora estimada de llegada a esa ciudad / aeropuerto de otros vuelos) 2 horas antes de la fecha
 --estimada de salida.
-drop view view_1
-create or replace view view_1 as
-select v.id_avion, a.aircraft_type, ae.nombre from vuelos v inner join aviones a on a.id_avion = v.id_avion inner join aeropuertos ae on ae.id_aeropuerto = a.id_aeropuerto where TO_TIMESTAMP (v.HORA_ESTIMADA_LLEGADA,'HH24:MI:SS.FF')<=to_timestamp(v.HORA_ESTIMADA_SALIDA,'HH24:MI:SS.FF')-2/24;
+create or replace view horasllegadas as
+select v.id_avion, a.aircraft_type,v.HORA_ESTIMADA_LLEGADA as hora_llegada, ae.nombre from vuelos v inner join aviones a on a.id_avion = v.id_avion inner join aeropuertos ae on ae.id_aeropuerto = a.id_aeropuerto where TO_TIMESTAMP (v.HORA_REAL_LLEGADA,'HH24:MI:SS.FF')<=to_timestamp(v.HORA_REAL_SALIDA,'HH24:MI:SS.FF')-2/24 and ae.id_aeropuerto = 1;
+
 
 create or replace procedure update_checking(idvuelo in integer,idpasajero in integer,tiposilla in varchar2)
  as
@@ -28,5 +28,5 @@ create or replace procedure update_checking(idvuelo in integer,idpasajero in int
  
  Vista 4
  
- CREATE OR REPLACE FORCE EDITIONABLE VIEW "VUELOS_PROGRAMADOS"  AS 
+ CREATE OR REPLACE VIEW VUELOS_PROGRAMADOS  AS 
   select t.id_empleados,t.nombres,t.apellidos,t.tipo,v.id_vuelo,v.estado from tripulaciones t inner join tripuvuelo tv on tv.id_tripulaciones = t.id_empleados  inner join vuelos v on v.id_vuelo = tv.id_vuelo where v.estado = 'confirmado';
