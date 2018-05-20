@@ -26,7 +26,16 @@ create or replace procedure update_checking(idvuelo in integer,idpasajero in int
     
  end;
  
- Vista 4
+ --Construya una vista que dado un id de un vuelo pasado o confirmado, muestre el listado de personal
+--asignado al vuelo, tanto pilotos como auxiliares de vuelo). Debe haber una columna que identifique
+--quien es el piloto, quién es el copiloto y quienes son los auxiliares de vuelo
  
  CREATE OR REPLACE VIEW VUELOS_PROGRAMADOS  AS 
   select t.id_empleados,t.nombres,t.apellidos,t.tipo,v.id_vuelo,v.estado from tripulaciones t inner join tripuvuelo tv on tv.id_tripulaciones = t.id_empleados  inner join vuelos v on v.id_vuelo = tv.id_vuelo where v.estado = 'confirmado';
+
+--punto 5 Construya una vista que dado un aeropuerto origen y un aeropuerto destino (Ruta), muestre todos los
+--vuelos programados desde el momento en que se está ejecutando el query hasta 2 semanas
+--después, debe mostrar el número del vuelo, la hora y la fecha programada de salida
+
+create or replace view programacionvuelos as
+select v.id_vuelo,v.hora_real_salida,r.id_aeropuerto_origen,r.id_aeropuerto_destino from vuelos v inner join itinerarios i on i.id_vuelo = v.id_vuelo inner join rutas r on r.id_ruta = i.id_ruta;
