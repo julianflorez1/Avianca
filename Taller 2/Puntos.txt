@@ -1,0 +1,27 @@
+
+--Views
+--1.Se desea asignar un avión a un vuelo confirmado, para esto es necesario una vista que dado el id de
+--un vuelo confirmado, busque los aviones que se encuentran en el aeropuerto de salida (Utilizando la
+--hora estimada de llegada a esa ciudad / aeropuerto de otros vuelos) 2 horas antes de la fecha
+--estimada de salida.
+drop view view_1
+create or replace view view_1 as
+select v.id_avion, a.aircraft_type, ae.nombre from vuelos v inner join aviones a on a.id_avion = v.id_avion inner join aeropuertos ae on ae.id_aeropuerto = a.id_aeropuerto where TO_TIMESTAMP (v.HORA_ESTIMADA_LLEGADA,'HH24:MI:SS.FF')<=to_timestamp(v.HORA_ESTIMADA_SALIDA,'HH24:MI:SS.FF')-2/24;
+
+create or replace procedure update_checking(idvuelo in integer,idpasajero in integer,tiposilla in varchar2)
+ as
+ validar integer;
+ begin
+    if(tiposilla = 'economia')then
+         validar := (select v.cantidad_pasajeros_economica as can_pasajeroeconomica from vuelos v where v.id_vuelo = idvuelo);
+         begin
+                update Vuelos set cantidad_pasajeros_economica=cantidad_pasajeros_economica+1
+                where id_vuelo=idvuelo;
+            end;
+        else
+        validar := select v.cantidad_pasajeros_ejecutiva as can_pasajeroejecutiva from vuelos v where v.id_vuelo = idvuelo;
+        update Vuelos set cantidad_pasajeros_ejecutiva=cantidad_pasajeros_ejecutiva+1
+                where id_vuelo=idvuelo;
+    end if;
+    
+ end;
