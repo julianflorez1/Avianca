@@ -25,3 +25,8 @@ create or replace procedure update_checking(idvuelo in integer,idpasajero in int
     end if;
     
  end;
+ 
+ Vista 4
+ 
+ CREATE OR REPLACE FORCE EDITIONABLE VIEW "AVIANCA"."VUELOS_PROGRAMADOS" ("ID_EMPLEADOS", "NOMBRES", "APELLIDOS", "TIPO", "ID_VUELO", "ESTADO") AS 
+  select t.id_empleados,t.nombres,t.apellidos,t.tipo,v.id_vuelo,v.estado from tripulaciones t inner join tripuvuelo tv on tv.id_tripulaciones = t.id_empleados  inner join vuelos v on v.id_vuelo = tv.id_vuelo where v.estado = 'confirmado';
