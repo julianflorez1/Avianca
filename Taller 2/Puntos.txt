@@ -43,6 +43,11 @@ create or replace procedure update_checking(idvuelo in integer,idpasajero in int
 --punto 5 Construya una vista que dado un aeropuerto origen y un aeropuerto destino (Ruta), muestre todos los
 --vuelos programados desde el momento en que se está ejecutando el query hasta 2 semanas
 --después, debe mostrar el número del vuelo, la hora y la fecha programada de salida
+--y tambien con explain plan con el punto 5 
 
 create or replace view programacionvuelos as
+explain plan set statement_id='bad2' for
+
 select v.id_vuelo,v.hora_real_salida,r.id_aeropuerto_origen,r.id_aeropuerto_destino from vuelos v inner join itinerarios i on i.id_vuelo = v.id_vuelo inner join rutas r on r.id_ruta = i.id_ruta;
+
+select * from table(dbms_xplan.display('PLAN_TABLE','bad2','TYPICAL'));
