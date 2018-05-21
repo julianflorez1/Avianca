@@ -7,6 +7,13 @@
 create or replace view horasllegadas as
 select v.id_avion, a.aircraft_type,v.HORA_ESTIMADA_LLEGADA as hora_llegada, ae.nombre from vuelos v inner join aviones a on a.id_avion = v.id_avion inner join aeropuertos ae on ae.id_aeropuerto = a.id_aeropuerto where TO_TIMESTAMP (v.HORA_REAL_LLEGADA,'HH24:MI:SS.FF')<=to_timestamp(v.HORA_REAL_SALIDA,'HH24:MI:SS.FF')-2/24 and ae.id_aeropuerto = 1;
 
+--3) Construya un procedimiento que permita hacer el checking de los pasajeros, para esto se debe pasar
+--el id del vuelo confirmado, el id del pasajero y el tipo de silla que tiene (Ejecutiva, Económica) (0.5) .
+--a) Por cada checking exitoso actualice la cantidad de pasajeros en la tabla del vuelo confirmado
+--dependiendo de la silla que tenga.
+--b) Se debe validar que la cantidad de pasajeros no supere la cantidad de sillas del avión
+--asignado. En caso de ser superior el procedimiento simplemente se ejecutará pero no
+--mostrará ningún error y tampoco modificará las tablas existentes.
 
 create or replace procedure update_checking(idvuelo in integer,idpasajero in integer,tiposilla in varchar2)
  as
@@ -26,7 +33,7 @@ create or replace procedure update_checking(idvuelo in integer,idpasajero in int
     
  end;
  
- --Construya una vista que dado un id de un vuelo pasado o confirmado, muestre el listado de personal
+ --4.)Construya una vista que dado un id de un vuelo pasado o confirmado, muestre el listado de personal
 --asignado al vuelo, tanto pilotos como auxiliares de vuelo). Debe haber una columna que identifique
 --quien es el piloto, quién es el copiloto y quienes son los auxiliares de vuelo
  
